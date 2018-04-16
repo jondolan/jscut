@@ -228,11 +228,47 @@ tutorial(1, 'Open an SVG file.');
 
 function loadSvg(alert, filename, content) {
     svg = Snap.parse(content);
+    //selectionViewModel.clickOnSvg(svg)
     contentGroup.append(svg);
     updateSvgSize();
     if(alert)
         alert.remove();
     showAlert("loaded " + filename, "alert-success");
+    console.log(svg);
+
+    var x = $("#MainSvg").position().left + 2;
+    var y = $("#MainSvg").position().top + 2;
+    var left = x;
+    var top = y;
+    var width = $("#MainSvg").width();
+    var height = $("#MainSvg").height();
+    while (selectionViewModel.selNumSelected() < 1) {
+	console.log("click on " + x + ", " + y);
+	if (x > left + width) {
+		x = left; y++;
+	} else {
+		x++;
+	}
+	var element = Snap.getElementByPoint(x, y);
+	selectionViewModel.clickOnSvg(element);
+    }
+/*var path = jscut.priv.path.getLinearSnapPathFromElement(element, selectionViewModel.selMinNumSegments(), selectionViewModel.selMinSegmentLength.toInch() * svgViewModel.pxPerInch(), function (msg) {
+            showAlert(msg, "alert-warning");
+        });
+
+if (path != null) {
+            var newPath = selectionGroup.path(path);
+            newPath.attr("class", "selectedPath");
+            if (element.attr("fill-rule") == "evenodd")
+                newPath.attr("fill-rule", "evenodd");
+            selectionViewModel.selNumSelected(self.selNumSelected() + 1);
+        }*/
+
+//selectionViewModel.clickOnSvg(svg.paper);
+    /*document.getElementById("MainSvg").children[2].children[0].children[0].classList.add("selectedPath");
+    document.getElementById("MainSvg").children[2].children[0].children[0].setAttribute("fill-rule", "evenodd");
+    selectionViewModel.selNumSelected(selectionViewModel.selNumSelected() + 1);*/
+    /*document.getElementById("MainSvg").children[2].children[0].children[0].click();*/
     tutorial(2, 'Click 1 or more objects.');
 }
 
